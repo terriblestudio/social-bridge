@@ -1,0 +1,55 @@
+.social-bridge-likes-collage-wrapper {
+    margin: 20px 0;
+}
+
+.social-bridge-likes-platform {
+    margin-bottom: 20px;
+}
+
+.social-bridge-likes-count {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.social-bridge-likes-count .dashicons {
+    vertical-align: middle;
+}
+
+.social-bridge-avatar-collage {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.social-bridge-avatar {
+    position: relative;
+}
+
+.social-bridge-avatar img {
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.social-bridge-avatar-more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+    border: 2px solid #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+    color: #666;
+}
+
+.social-bridge-likes-collage-empty {
+    font-style: italic;
+    color: #888;
+    padding: 10px;
+    background: #f9f9f9;
+    border: 1px solid #eee;
+    border-radius: 3px;
+}
