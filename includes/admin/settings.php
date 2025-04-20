@@ -75,7 +75,7 @@ function social_bridge_register_settings() {
     
     // Register settings
     register_setting(
-        'social_bridge_settings',
+        'social-bridge',
         'social_bridge_sync_frequency',
         array(
             'type' => 'string',
@@ -87,7 +87,7 @@ function social_bridge_register_settings() {
     
     // Settings for comment appearance
     register_setting(
-        'social_bridge_settings',
+        'social-bridge',
         'social_bridge_comment_appearance',
         array(
             'type' => 'string',
@@ -99,7 +99,7 @@ function social_bridge_register_settings() {
     
     // Settings for which types of comments to show
     register_setting(
-        'social_bridge_settings',
+        'social-bridge',
         'social_bridge_comment_types',
         array(
             'type' => 'array',
@@ -111,7 +111,7 @@ function social_bridge_register_settings() {
     
     // Setting for auto-sync
     register_setting(
-        'social_bridge_settings',
+        'social-bridge',
         'social_bridge_always_sync',
         array(
             'type' => 'boolean',
