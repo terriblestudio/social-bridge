@@ -92,6 +92,8 @@ class Social_Bridge_Bluesky_Integration extends Social_Bridge_Integration {
         );
         
         // Register settings fields
+        // phpcs:disable PluginCheck.CodeAnalysis.SettingSanitization
+        // Dynamic arguments are appropriately sanitized with sanitize_callback functions.
         register_setting(
             'social-bridge',
             'social_bridge_bluesky_handle',
@@ -110,6 +112,7 @@ class Social_Bridge_Bluesky_Integration extends Social_Bridge_Integration {
                 'sanitize_callback' => 'sanitize_text_field'
             )
         );
+        // phpcs:enable
         
         // Add settings fields
         add_settings_field(

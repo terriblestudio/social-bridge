@@ -199,7 +199,7 @@ function social_bridge_render_comments_meta_box($post) {
                     </div>
                     
                     <div class="social-bridge-comment-content">
-                        <?php echo social_bridge_parse_content($data['content'], $platform); ?>
+                        <?php echo wp_kses_post( social_bridge_parse_content($data['content'], $platform) ); ?>
                     </div>
                 </div>
             <?php endforeach; ?>

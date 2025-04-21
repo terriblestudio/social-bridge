@@ -92,6 +92,8 @@ class Social_Bridge_Mastodon_Integration extends Social_Bridge_Integration {
         );
         
         // Register settings fields
+        // phpcs:disable PluginCheck.CodeAnalysis.SettingSanitization
+        // Dynamic arguments are appropriately sanitized with sanitize_callback functions.
         register_setting(
             'social-bridge',
             'social_bridge_mastodon_instance_url',
@@ -110,6 +112,7 @@ class Social_Bridge_Mastodon_Integration extends Social_Bridge_Integration {
                 'sanitize_callback' => 'sanitize_text_field'
             )
         );
+        // phpcs:enable
         
         // Add settings fields
         add_settings_field(
@@ -457,7 +460,7 @@ class Social_Bridge_Mastodon_Integration extends Social_Bridge_Integration {
                 'author_avatar' => $favourite['avatar'],
                 /* translators: %s is the platform name */
                 'content' => sprintf(__('Liked this post on %s', 'social-bridge'), 'Mastodon'),
-                'created_at' => date('Y-m-d H:i:s'), // We don't get a timestamp for likes
+                'created_at' => gmdate('Y-m-d H:i:s'), // We don't get a timestamp for likes
                 'raw_data' => $favourite
             );
             
@@ -512,6 +515,7 @@ class Social_Bridge_Mastodon_Integration extends Social_Bridge_Integration {
                 'author_name' => $account['display_name'] ?: $account['username'],
                 'author_url' => $account['url'],
                 'author_avatar' => $account['avatar'],
+                /* translators: %s is the display name of the account which boosted the post */
                 'content' => sprintf(__('%s boosted this post on Mastodon', 'social-bridge'), $account['display_name'] ?: $account['username']),
                 'created_at' => current_time('mysql'),
                 'raw_data' => $account

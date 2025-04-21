@@ -120,9 +120,9 @@ function social_bridge_render_likes_collage_block($attributes) {
                 $count = count($platform_data['users']);
                 $output .= '<div class="social-bridge-likes-count">';
                 $output .= '<span class="dashicons ' . esc_attr($platform_data['icon']) . '"></span> ';
-                /* translators: %1$s is the number of likes, %2$s is the platform name */
                 $output .= sprintf(
-                    __('%1$s likes on %2$s', 'social-bridge'),
+                /* translators: %1$s is the number of likes, %2$s is the platform name */
+                __('%1$s likes on %2$s', 'social-bridge'),
                     '<strong>' . $count . '</strong>',
                     '<strong>' . esc_html($platform_data['name']) . '</strong>'
                 );

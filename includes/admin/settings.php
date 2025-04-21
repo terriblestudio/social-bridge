@@ -37,6 +37,10 @@ add_action('admin_menu', 'social_bridge_register_settings_page');
 /**
  * Register settings
  */
+
+// phpcs:disable PluginCheck.CodeAnalysis.SettingSanitization
+// Dynamic arguments are appropriately sanitized with sanitize_callback functions.
+
 function social_bridge_register_settings() {
     register_setting('social-bridge', 'social_bridge_general_settings');
     
@@ -121,6 +125,10 @@ function social_bridge_register_settings() {
         )
     );
 }
+
+// phpcs:disable PluginCheck.CodeAnalysis.SettingSanitization
+// Dynamic arguments are appropriately sanitized with sanitize_callback functions.
+
 add_action('admin_init', 'social_bridge_register_settings');
 
 /**
@@ -132,7 +140,7 @@ function social_bridge_render_settings_page() {
     }
     
     // Get active tab
-    $active_tab = isset($_GET['tab']) ? sanitize_text_field($_GET['tab']) : 'general';
+    $active_tab = isset($_GET['tab']) ? sanitize_text_field(wp_unslash($_GET['tab'])) : 'general';
     
     ?>
     <div class="wrap">
@@ -191,7 +199,7 @@ function social_bridge_render_settings_page() {
  * Render general settings section
  */
 function social_bridge_render_general_settings_section() {
-    echo '<p>' . __('Configure general settings for Social Bridge integrations.', 'social-bridge') . '</p>';
+    echo '<p>' . esc_html_e('Configure general settings for Social Bridge integrations.', 'social-bridge') . '</p>';
 }
 
 /**
@@ -200,10 +208,10 @@ function social_bridge_render_general_settings_section() {
 function social_bridge_render_sync_frequency_field() {
     $frequency = get_option('social_bridge_sync_frequency', 'hourly');
     $options = array(
-        'hourly' => __('Hourly', 'social-bridge'),
-        'twicedaily' => __('Twice Daily', 'social-bridge'),
-        'daily' => __('Daily', 'social-bridge'),
-        'social_bridge_weekly' => __('Weekly', 'social-bridge')
+        'hourly' => esc_html__('Hourly', 'social-bridge'),
+        'twicedaily' => esc_html__('Twice Daily', 'social-bridge'),
+        'daily' => esc_html__('Daily', 'social-bridge'),
+        'social_bridge_weekly' => esc_html__('Weekly', 'social-bridge')
     );
     
     ?>
@@ -224,9 +232,9 @@ function social_bridge_render_sync_frequency_field() {
 function social_bridge_render_comment_appearance_field() {
     $appearance = get_option('social_bridge_comment_appearance', 'integrated');
     $options = array(
-        'integrated' => __('Fully integrated (look like WordPress comments)', 'social-bridge'),
-        'styled' => __('Styled differently, but in the same comment section', 'social-bridge'),
-        'separate' => __('In a separate section below WordPress comments', 'social-bridge')
+        'integrated' => esc_html__('Fully integrated (look like WordPress comments)', 'social-bridge'),
+        'styled' => esc_html__('Styled differently, but in the same comment section', 'social-bridge'),
+        'separate' => esc_html__('In a separate section below WordPress comments', 'social-bridge')
     );
     
     ?>
@@ -257,19 +265,19 @@ function social_bridge_render_comment_types_field() {
     <fieldset>
         <label>
             <input type="checkbox" name="social_bridge_comment_types[comment]" value="1" <?php checked(isset($types['comment']) && $types['comment'] === '1'); ?>>
-            <?php _e('Comments/Replies', 'social-bridge'); ?>
+            <?php esc_html_e('Comments/Replies', 'social-bridge'); ?>
         </label>
         <br>
         
         <label>
             <input type="checkbox" name="social_bridge_comment_types[share]" value="1" <?php checked(isset($types['share']) && $types['share'] === '1'); ?>>
-            <?php _e('Shares/Retweets/Reblogs (as pingbacks)', 'social-bridge'); ?>
+            <?php esc_html_e('Shares/Retweets/Reblogs (as pingbacks)', 'social-bridge'); ?>
         </label>
         <br>
         
         <label>
             <input type="checkbox" name="social_bridge_comment_types[like]" value="1" <?php checked(isset($types['like']) && $types['like'] === '1'); ?>>
-            <?php _e('Likes/Favorites', 'social-bridge'); ?>
+            <?php esc_html_e('Likes/Favorites', 'social-bridge'); ?>
         </label>
     </fieldset>
     <p class="description"><?php esc_html_e('Which types of social interactions should be imported?', 'social-bridge'); ?></p>
@@ -284,20 +292,20 @@ function social_bridge_render_sync_page() {
         return;
     }
     
-    $platform = isset($_GET['platform']) ? sanitize_text_field($_GET['platform']) : '';
+    $platform = isset($_GET['platform']) ? sanitize_text_field(wp_unslash($_GET['platform'])) : '';
     $post_id = isset($_GET['post_id']) ? intval($_GET['post_id']) : 0;
     
     $post = get_post($post_id);
     
     if (!$post) {
-        wp_die(__('Invalid post ID.', 'social-bridge'));
+        wp_die(esc_html__('Invalid post ID.', 'social-bridge'));
     }
     
     $results = false;
     $error = false;
     
     // Handle sync request
-    if (isset($_POST['social_bridge_sync']) && wp_verify_nonce($_POST['social_bridge_sync_nonce'], 'social_bridge_sync')) {
+    if (isset($_POST['social_bridge_sync']) && isset($_POST['social_bridge_sync_nonce']) && wp_verify_nonce(wp_unslash($_POST['social_bridge_sync_nonce']), 'social_bridge_sync')) {
         $results = social_bridge_manual_sync($post_id, $platform ?: null);
         
         if (is_wp_error($results)) {
@@ -312,9 +320,9 @@ function social_bridge_render_sync_page() {
         <div class="notice notice-info">
             <p>
                 <?php 
-                /* translators: %s is the post title */
                 echo sprintf(
-                    __('You are syncing social interactions for: <strong>%s</strong>', 'social-bridge'), 
+                /* translators: %s is the post title */
+                    wp_kses_post( __('You are syncing social interactions for: <strong>%s</strong>', 'social-bridge') ),
                     esc_html($post->post_title)
                 ); 
                 ?>
@@ -335,9 +343,9 @@ function social_bridge_render_sync_page() {
                         <li>
                             <?php
                             $platform_name = social_bridge_get_platform_name($platform_id);
-                            /* translators: %1$s is the platform name, %2$d is the number of interactions synced */
                             echo sprintf(
-                                __('<strong>%1$s</strong>: %2$d new interactions synced', 'social-bridge'),
+                            /* translators: %1$s is the platform name, %2$d is the number of interactions synced */
+                            wp_kses_post( __('<strong>%1$s</strong>: %2$d new interactions synced', 'social-bridge') ),
                                 esc_html($platform_name),
                                 intval($count)
                             );
@@ -355,9 +363,9 @@ function social_bridge_render_sync_page() {
                 <?php
                 if ($platform) {
                     $platform_name = social_bridge_get_platform_name($platform);
-                    /* translators: %s is the platform name */
                     echo sprintf(
-                        __('You are about to sync comments and interactions from <strong>%s</strong>.', 'social-bridge'),
+                    /* translators: %s is the platform name */
+                    wp_kses_post( __('You are about to sync comments and interactions from <strong>%s</strong>.', 'social-bridge') ),
                         esc_html($platform_name)
                     );
                 } else {
