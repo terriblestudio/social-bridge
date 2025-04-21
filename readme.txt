@@ -108,7 +108,7 @@ The plugin uses WordPress cron for synchronization, so it won't impact your site
 
 = Can I display comments from multiple platforms? =
 
-Yes, the plugin can display comments from all connected platforms on your posts.Yes, the plugin can display comments from all connected platforms on your posts.
+Yes, the plugin can display comments from all connected platforms on your posts.
 
 == Changelog ==
 
