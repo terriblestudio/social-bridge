@@ -42,8 +42,6 @@ add_action('admin_menu', 'social_bridge_register_settings_page');
 // Dynamic arguments are appropriately sanitized with sanitize_callback functions.
 
 function social_bridge_register_settings() {
-    register_setting('social-bridge', 'social_bridge_general_settings');
-    
     // General settings section
     add_settings_section(
         'social_bridge_general_settings',
@@ -138,10 +136,12 @@ function social_bridge_render_settings_page() {
     if (!current_user_can('manage_options')) {
         return;
     }
-    
+
+    // phpcs:disable WordPress.Security.NonceVerification
+    // No impact to site security from a CSRF which only opens a specific settings tab.
     // Get active tab
     $active_tab = isset($_GET['tab']) ? sanitize_text_field(wp_unslash($_GET['tab'])) : 'general';
-    
+    // phpcs:enable
     ?>
     <div class="wrap">
         <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
@@ -305,14 +305,14 @@ function social_bridge_render_sync_page() {
     $error = false;
     
     // Handle sync request
-    if (isset($_POST['social_bridge_sync']) && isset($_POST['social_bridge_sync_nonce']) && wp_verify_nonce(wp_unslash($_POST['social_bridge_sync_nonce']), 'social_bridge_sync')) {
+    if (isset($_POST['social_bridge_sync']) && isset($_POST['social_bridge_sync_nonce']) && wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['social_bridge_sync_nonce'])), 'social_bridge_sync')) {
         $results = social_bridge_manual_sync($post_id, $platform ?: null);
         
         if (is_wp_error($results)) {
             $error = $results->get_error_message();
         }
     }
-    
+
     ?>
     <div class="wrap">
         <h1><?php esc_html_e('Sync Social Comments', 'social-bridge'); ?></h1>

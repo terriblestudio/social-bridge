@@ -86,6 +86,29 @@ function my_plugin_register_integration($integrations) {
 add_filter('social_bridge_integrations', 'my_plugin_register_integration');
 ```
 
+== External Services ==
+
+Social Bridge includes built-in integration for two social media platforms: Bluesky and Mastodon.
+When enabled, Social Bridge interacts with the APIs of these platforms to retrieve data
+from social media posts specified by authors on your site.
+
+These integrations do not transmit any user data from your site to the third-party
+platforms. However, they will use the authentication or API credentials you provide
+in the Social Bridge settings to access the respective platforms.
+
+The plugin will only communicate with these platforms when explicitly configured to
+do so—such as when a post on your site includes social media links in the Social Interactions metabox.
+
+After configured both in the plugin settings and on individual posts, Social Bridge will routinely
+re-communicate with these platforms, in order to update its cache of social media comments, likes and shares.
+
+You can review Bluesky's privacy policies [here](https://bsky.social/about/support/privacy-policy)
+and [here](https://bsky.social/about/support/network-services-privacy-policy).
+
+For Mastodon, each server maintains its own privacy policy. You should review the policy
+of the specific server you use. As an example, the mastodon.social policy is
+available [here](https://mastodon.social/privacy-policy).
+
 == Installation ==
 
 1. Upload the `social-bridge` folder to the `/wp-content/plugins/` directory

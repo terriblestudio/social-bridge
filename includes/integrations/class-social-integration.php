@@ -156,11 +156,15 @@ abstract class Social_Bridge_Integration {
         if (!isset($_POST[$nonce_name])) {
             return;
         }
-        
+
+        // phpcs:disable WordPress.Security.ValidatedSanitizedInput
+        // The value is sanitized before being passed to wp_verify_nonce, although as the value is
+        // never echoed back to the client anyways, sanitization is likely not needed.
         // Verify that the nonce is valid
-        if (!wp_verify_nonce($_POST[$nonce_name], 'social_bridge_' . $this->platform_id . '_meta_box')) {
+        if (!wp_verify_nonce(sanitize_text_field(wp_unslash($_POST[$nonce_name])), 'social_bridge_' . $this->platform_id . '_meta_box')) {
             return;
         }
+        // phpcs:enable
         
         // If this is an autosave, we don't want to do anything
         if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
@@ -181,7 +185,7 @@ abstract class Social_Bridge_Integration {
         // Sanitize and save the post URL
         $field_name = 'social_bridge_' . $this->platform_id . '_url';
         if (isset($_POST[$field_name])) {
-            $post_url = sanitize_url($_POST[$field_name]);
+            $post_url = sanitize_url(wp_unslash([$field_name]));
             update_post_meta($post_id, '_' . $field_name, $post_url);
             
             // If URL changed and not empty, schedule a sync

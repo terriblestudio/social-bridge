@@ -11,6 +11,14 @@ if (!defined('WPINC')) {
 }
 
 /**
+ * Add styles for meta-boxes
+ */
+function social_bridge_enqueue_metabox_styles() {
+    wp_enqueue_style("social-bridge-meta-boxes", SOCIAL_BRIDGE_PLUGIN_DIR . "assets/css/meta-boxes.css", array(), SOCIAL_BRIDGE_VERSION);
+}
+add_action('add_meta_boxes', 'social_bridge_enqueue_metabox_styles');
+
+/**
  * Add meta box for social interactions in post editor sidebar
  */
 function social_bridge_add_interactions_meta_box() {
@@ -72,46 +80,17 @@ function social_bridge_render_interactions_meta_box($post) {
             </p>
         <?php endif; ?>
     </div>
-    
-    <style>
-        .social-bridge-post-urls {
-            margin: 0;
-        }
-        .social-bridge-post-urls li {
-            margin-bottom: 8px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid #eee;
-        }
-        .social-bridge-post-urls li:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-        .social-bridge-post-urls .dashicons {
-            vertical-align: middle;
-            margin-right: 3px;
-        }
-        .social-bridge-actions {
-            margin-top: 5px;
-        }
-        .social-bridge-like-count {
-            font-size: 90%;
-            opacity: 0.7;
-        }
-    </style>
     <?php
 }
 
 /**
  * Add meta box for viewing social comments in post editor
  */
-function social_bridge_add_comments_meta_box() {
+function social_bridge_add_comments_meta_box($post) {
     // Check if post has social URLs
     $screen = get_current_screen();
-    
-    if ($screen && in_array($screen->base, array('post')) && isset($_GET['post'])) {
-        $post_id = intval($_GET['post']);
-        $post_urls = social_bridge_get_post_urls($post_id);
+    if ($screen && in_array($screen->base, array('post'))) {
+        $post_urls = social_bridge_get_post_urls($post->ID);
         
         if (!empty($post_urls)) {
             add_meta_box(
@@ -205,61 +184,5 @@ function social_bridge_render_comments_meta_box($post) {
             <?php endforeach; ?>
         </div>
     </div>
-    
-    <style>
-        .social-bridge-comments {
-            max-height: 400px;
-            overflow-y: auto;
-            border: 1px solid #ddd;
-            padding: 10px;
-            background: #f9f9f9;
-        }
-        .social-bridge-comment {
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-        .social-bridge-comment:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
-        }
-        .social-bridge-comment-author {
-            display: flex;
-            align-items: center;
-            margin-bottom: 5px;
-            flex-wrap: wrap;
-        }
-        .social-bridge-avatar {
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-        .social-bridge-author-name {
-            font-weight: bold;
-            margin-right: 10px;
-        }
-        .social-bridge-platform {
-            background: #eee;
-            border-radius: 3px;
-            padding: 2px 5px;
-            font-size: 11px;
-            display: inline-flex;
-            align-items: center;
-            margin-right: 10px;
-        }
-        .social-bridge-platform .dashicons {
-            font-size: 14px;
-            width: 14px;
-            height: 14px;
-            margin-right: 3px;
-        }
-        .social-bridge-comment-date {
-            color: #777;
-            font-size: 12px;
-        }
-        .social-bridge-comment-content {
-            margin-left: 42px;
-        }
-    </style>
     <?php
 } 

@@ -1,0 +1,78 @@
+.social-bridge-post-urls {
+    margin: 0;
+}
+.social-bridge-post-urls li {
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+}
+.social-bridge-post-urls li:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+.social-bridge-post-urls .dashicons {
+    vertical-align: middle;
+    margin-right: 3px;
+}
+.social-bridge-actions {
+    margin-top: 5px;
+}
+.social-bridge-like-count {
+    font-size: 90%;
+    opacity: 0.7;
+}
+
+.social-bridge-comments {
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 10px;
+    background: #f9f9f9;
+}
+.social-bridge-comment {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+.social-bridge-comment:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+.social-bridge-comment-author {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    flex-wrap: wrap;
+}
+.social-bridge-avatar {
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.social-bridge-author-name {
+    font-weight: bold;
+    margin-right: 10px;
+}
+.social-bridge-platform {
+    background: #eee;
+    border-radius: 3px;
+    padding: 2px 5px;
+    font-size: 11px;
+    display: inline-flex;
+    align-items: center;
+    margin-right: 10px;
+}
+.social-bridge-platform .dashicons {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    margin-right: 3px;
+}
+.social-bridge-comment-date {
+    color: #777;
+    font-size: 12px;
+}
+.social-bridge-comment-content {
+    margin-left: 42px;
+}
