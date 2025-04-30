@@ -38,9 +38,6 @@ add_action('admin_menu', 'social_bridge_register_settings_page');
  * Register settings
  */
 
-// phpcs:disable PluginCheck.CodeAnalysis.SettingSanitization
-// Dynamic arguments are appropriately sanitized with sanitize_callback functions.
-
 function social_bridge_register_settings() {
     // General settings section
     add_settings_section(
@@ -123,9 +120,6 @@ function social_bridge_register_settings() {
         )
     );
 }
-
-// phpcs:disable PluginCheck.CodeAnalysis.SettingSanitization
-// Dynamic arguments are appropriately sanitized with sanitize_callback functions.
 
 add_action('admin_init', 'social_bridge_register_settings');
 
